@@ -1,29 +1,30 @@
 <?php get_header(); ?>	
 
-		<div id="content">
-			<div class="container">
-				<div class="single_left">
+<?php if (!is_home() && !is_front_page() && !is_archive()) { ?>
+		<div class="content container content--interior">
+			<div class="row row--interior-content">
+				<div class="col-xs-12 col--interior-content">
+<?php } else { ?>
+		<div class="content container">
+<?php } ?>
+
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-
-					<div class="single_inside_content">
-
-						<?php the_content(); ?>
-
-					</div><!--//single_inside_content-->
-					<br /><br />
-				
-					<?php //comments_template(); ?>
-				
+					<?php the_content(); ?>
 					<?php endwhile; else: ?>
-					<h3>Sorry, no posts matched your criteria.</h3>
+					<div class="interior-content__copy">
+						<h1 class="text-center">Error 404 File Not Found</h1>
+						<p class="text-center">The file or page you're looking for can't be found.</p>
+					</div>
 					<?php endif; ?>
 
-				</div><!--//single_left-->
-				
-				<?php get_sidebar(); ?>
-				
-				<div class="clear"></div>
-			</div><!--//container-->
-		</div><!--//content-->
+<?php if (!is_home() && !is_front_page() && !is_archive()) { ?>
+					<?php get_sidebar(); ?>
+				</div>
+			</div>
+		</div>
+<?php } else { ?>
+		<div class="content container">
+<?php } ?>
+		</div>
 
 <?php get_footer(); ?>

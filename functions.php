@@ -6,8 +6,10 @@ include('settings.php');
 
 if (function_exists('add_theme_support')) {
 	add_theme_support('menus');
-	register_nav_menu('header-menu','Header Menu');
-//	register_nav_menu('footer-menu','Footer Menu');
+	register_nav_menu('leftNav','Left Menu');
+	register_nav_menu('topNav','Top Menu');
+	register_nav_menu('footerNav','Footer Menu');
+	register_nav_menu('footerLegal','Footer Legal Menu');
 	add_theme_support( 'post-thumbnails' );
     add_image_size('home-slide','100%',600,true);
     add_image_size('magg-home-blog',366,220,true);
@@ -17,7 +19,7 @@ if (function_exists('add_theme_support')) {
     add_image_size('home-image',380,275,true);
 }
 
-function get_category_id($cat_name){
+function get_category_id($cat_name) {
 	$term = get_term_by('name', $cat_name, 'category');
 	return $term->term_id;
 }
@@ -57,7 +59,6 @@ if ( function_exists('register_sidebar') ) {
 		'before_title' => '<h3>',
 		'after_title' => '</h3>',
 	));	
-
 
     register_sidebar(array(
         'name'=>'Footer Col 3',
@@ -208,29 +209,29 @@ function pages_extra_fields_box_content( $post ) {
 	wp_nonce_field( plugin_basename( __FILE__ ), 'pages_extra_fields_box_content_nonce' ); ?>
 
 <style type="text/css">
-.page_extra_tbl input[type=text] { width: 350px; padding: 5px 8px; }
-.page_extra_tbl select { min-width: 50px; }
-.page_extra_tbl textarea { width: 350px; height: 80px; padding: 5px 8px; }
+    .page_extra_tbl input[type=text] { width: 350px; padding: 5px 8px; }
+    .page_extra_tbl select { min-width: 50px; }
+    .page_extra_tbl textarea { width: 350px; height: 80px; padding: 5px 8px; }
 </style>
-	<table border="0" class="pages_extra_tbl">
-        <tr>
-            <td>Type:</td>
-            <td>
-                <select name="page_featured_type">
-                    <option value="">image</option>
-                    <option value="youtube" <?php if(get_post_meta( $post->ID, 'page_featured_type', true ) == 'youtube') { echo 'selected="selected"'; } ?>>youtube</option>
-                    <option value="vimeo" <?php if(get_post_meta( $post->ID, 'page_featured_type', true ) == 'vimeo') { echo 'selected="selected"'; } ?>>vimeo</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td>Video ID:</td>
-            <td><input type="text" name="page_video_id" value="<?php echo get_post_meta( $post->ID, 'page_video_id', true ); ?>" /></td>
-        </tr>
-        <tr>
-            <td colspan="2">ex. <b>h6zo_7nvwNU</b> (youtube)<br />ex. <b>39792837</b> (vimeo)</td>
-        </tr>
-	</table>
+<table border="0" class="pages_extra_tbl">
+    <tr>
+        <td>Type:</td>
+        <td>
+            <select name="page_featured_type">
+                <option value="">image</option>
+                <option value="youtube" <?php if(get_post_meta( $post->ID, 'page_featured_type', true ) == 'youtube') { echo 'selected="selected"'; } ?>>youtube</option>
+                <option value="vimeo" <?php if(get_post_meta( $post->ID, 'page_featured_type', true ) == 'vimeo') { echo 'selected="selected"'; } ?>>vimeo</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>Video ID:</td>
+        <td><input type="text" name="page_video_id" value="<?php echo get_post_meta( $post->ID, 'page_video_id', true ); ?>" /></td>
+    </tr>
+    <tr>
+        <td colspan="2">ex. <b>h6zo_7nvwNU</b> (youtube)<br />ex. <b>39792837</b> (vimeo)</td>
+    </tr>
+</table>
 <?php
 }
 

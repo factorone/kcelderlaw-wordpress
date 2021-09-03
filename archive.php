@@ -42,12 +42,4 @@
 
 		</div><!--//content-->
 
-	   <script type="text/javascript" charset="utf-8">
-			$(document).ready(function() {
-				$('#the_posts').finalTilesGallery({
-					minTileWidth: 400
-				});
-			});
-        </script>
-
 <?php get_footer(); ?> 		

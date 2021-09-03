@@ -1,52 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html hreflang="en">
 	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+		<meta http-equiv="x-ua-compatible" content="ie=edge" />
+		<meta name="language" content="English" />
+		<meta name="google-site-verification" content="" />
+		<meta name="msvalidate.01" content="5032E7B2C3AB10A3133722B41A5B6C3F" />
 		<meta charset="utf-8" />
 
 		<title><?php wp_title('&laquo;', true, 'right'); ?> <?php bloginfo('name'); ?></title> 
 
 		<?php wp_head(); ?>
 
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-		<link href='https://fonts.googleapis.com/css?family=Lato: 300,400,700,900' rel='stylesheet' type='text/css'>
-		<link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" media="all" href="https://fonts.googleapis.com/css?family=Crimson+Text:400,400italic|Oxygen|Open+Sans">
 
 		<!--[if lt IE 9]>
 			<script src="https://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 		<![endif]-->
-
-		<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" title="no title" charset="utf-8"/>
-
 		<!--[if IE]>
 			<script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/mobile.css" type="text/css" media="screen" title="no title" charset="utf-8"/>
-		<!--<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/slicknav.css" />-->
-		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/slippry.css">
-		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/ftg.css">
-		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/jquery.sidr.light.css">
-		<link href="<?php bloginfo('stylesheet_directory'); ?>/css/jquery.bxslider.css" rel="stylesheet" />
-		<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<!--	<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>-->
-		<script src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.bxslider.js"></script>
-		<script src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.infinitescroll.js"></script>
-		<script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/behaviors/manual-trigger.js"></script>
-		<!--<script src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.slicknav.js"></script>-->
-		<script src="<?php bloginfo('stylesheet_directory'); ?>/js/retina-1.1.0.min.js"></script>
-		<script src="<?php bloginfo('stylesheet_directory'); ?>/js/slippry.js"></script>
-		<!-- flickr slideshow js / css -->
 
+		<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8" />
+		<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" title="no title" charset="utf-8" />
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+		<script src="<?php bloginfo('stylesheet_directory'); ?>/js/retina-1.1.0.min.js"></script>
 		<script src="<?php bloginfo('stylesheet_directory'); ?>/js/modernizr-custom-v2.7.1.min.js" type="text/javascript"></script>
-	<!--	<script src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.film_roll.min.js"></script>-->
-		<script src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.carouFredSel-6.2.1.js"></script>
-		<script src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.finaltilesgallery.js"></script>
-		<script src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.sidr.min.js"></script>
 		<script src="<?php bloginfo('stylesheet_directory'); ?>/js/scripts.js"></script>
 
 		<?php $shortname = "kcel_theme"; ?>
 
 		<style type="text/css">
-
 			body {
 
 			<?php if(get_option($shortname.'_background_image_url','') != "") { ?>
@@ -62,79 +50,27 @@
 
 	<body <?php body_class($class); ?>>
 
-		<header id="header">
-
-			<div class="header_bottom">
-				<div class="container">
-					<div class="full_logo_cont">
-						<?php if(get_option($shortname.'_custom_logo_url','') != "") { ?>
-							<a href="<?php bloginfo('url'); ?>"><img src="<?php echo get_option($shortname.'_custom_logo_url',''); ?>" class="logo" alt="logo" /></a>
-						<?php } else { ?>
-							<a href="<?php bloginfo('url'); ?>"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/logo.png" class="logo" alt="logo" /></a>
-						<?php } ?>
-					</div><!--//logo_cont-->	
-
-					<div id="sidr">
-						<a class="close_menu" href="#"><img src="<?php echo get_stylesheet_directory_uri(); ?>/images/close-btn.png"></a>
-
-						<?php wp_nav_menu('theme_location=header-menu&container=false&menu_id=main_header_menu'); ?>
-
-						<div class="socials">
-
-							<?php if(get_option($shortname.'_twitter_link','') != '') { ?>
-
-							<a href="<?php echo get_option($shortname.'_twitter_link',''); ?>"target="_blank"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/twitter-icon.png" alt="twitter" /></a>
-
-						<?php } ?>
-
-						<?php if(get_option($shortname.'_facebook_link','') != '') { ?>
-
-							<a href="<?php echo get_option($shortname.'_facebook_link',''); ?>"target="_blank"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/facebook-icon.png" alt="facebook" /></a>
-
-						<?php } ?>
-
-						<?php if(get_option($shortname.'_google_plus_link','') != '') { ?>
-
-							<a href="<?php echo get_option($shortname.'_google_plus_link',''); ?>"target="_blank"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/google-plus-icon.png" alt="google plus" /></a>
-
-						<?php } ?>
-
-						<?php if(get_option($shortname.'_picasa_link','') != '') { ?>
-
-							<a href="<?php echo get_option($shortname.'_picasa_link',''); ?>"target="_blank"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/picasa-icon.png" alt="picasa" /></a>
-
-						<?php } ?>
-
-						<?php if(get_option($shortname.'_pinterest_link','') != '') { ?>
-
-							<a href="<?php echo get_option($shortname.'_pinterest_link',''); ?>"target="_blank"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/pinterest-icon.png" alt="pinterest" /></a>
-
-						<?php } ?>
-
-						<?php if(get_option($shortname.'_vimeo_link','') != '') { ?>
-
-							<a href="<?php echo get_option($shortname.'_vimeo_link',''); ?>"target="_blank"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/vimeo-icon.png" alt="vimeo" /></a>
-
-						<?php } ?>
-
-						<?php if(get_option($shortname.'_youtube_link','') != '') { ?>
-
-							<a href="<?php echo get_option($shortname.'_youtube_link',''); ?>"target="_blank"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/youtube-icon.png" alt="youtube" /></a>
-
-						<?php } ?>
-
-						<?php if(get_option($shortname.'_flickr_link','') != '') { ?>
-
-							<a href="<?php echo get_option($shortname.'_flickr_link',''); ?>"target="_blank"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/flickr-icon.png" alt="flickr" /></a>
-
-						<?php } ?>
+		<header class="affix" data-spy="affix" data-offset-top="16">
+			<div class="header__box container">
+				<div class="row">
+					<div class="col-xs-12 col--header">
+						<div class="col-md-4 col-sm-6 col-xs-12 header__logo">
+							<a href="<?php bloginfo('url'); ?>" title="KC Elder Law">
+							<?php if(get_option($shortname.'_custom_logo_url','') != "") { ?>
+								<img src="<?php echo get_option($shortname.'_custom_logo_url',''); ?>" class="logo" alt="KC Elder Law - Our Experience Makes the Difference" /></a>
+							<?php } else { ?>
+								<img src="<?php bloginfo('stylesheet_directory'); ?>/images/KCEL_website_logo-white.png" class="logo" alt="KC Elder Law - Our Experience Makes the Difference" /></a>
+							<?php } ?>
+							</a>
 						</div>
+						<div class="col-md-8 col-sm-6 col-xs-12 header__contact">
+							<a class="btn btn--highlight header__btn" href="#" data-toggle="modal" data-target="#appointmentForm">Schedule a Free Consultation</a>
+							<h3 class="contact--phone">
+								<span class="fa fa-phone"></span> 
+							</h3>
+						</div>
+
 					</div>
-					<div class="top_menu">
-						<a href="#sidr" class="t_menu"><img src="<?php echo get_stylesheet_directory_uri(); ?>/images/menu-btn.png"></a>
-					</div> <!--//header_search-->
-					<div class="clear"></div>
-				</div><!--//container-->
-			</div><!--//header_bottom-->	
-		</header><!--//header-->
-		
+				</div>
+			</div>
+		</header>

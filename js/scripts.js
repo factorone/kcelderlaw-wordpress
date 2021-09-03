@@ -1,166 +1,44 @@
+// Check useragent to see if is mobile.  Also, check for windows NT and ability
+// to use touchevents.  If both are true, then it is a mobile version of
+// Windows (i.e., Surface, old resistive touch screen devices, etc)
+window.isMobile = (
+	navigator.userAgent.toLowerCase().match(/android/)
+	|| navigator.userAgent.toLowerCase().match(/webos/i)
+	|| navigator.userAgent.toLowerCase().match(/iphone/i)
+	|| navigator.userAgent.toLowerCase().match(/ipad/i)
+	|| navigator.userAgent.toLowerCase().match(/ipod/i)
+	|| navigator.userAgent.toLowerCase().match(/blackberry/i)
+	|| navigator.userAgent.toLowerCase().match(/windows phone/i))
+		// It's a phone (or tablet)
+		? true
+		// Not a mobile device on initial look.  Time to make sure it
+		// isn't a sneaky windows tablet
+		: (
+		(navigator.userAgent.toLowerCase().indexOf("windows nt") != -1 && navigator.userAgent.toLowerCase().indexOf("touch") != -1) && ((window.ontouchstart !== 'undefined') || (navigator.msMaxTouchPoints > 0)))
+			// You cheeky fellow!  It's mobile!
+			? true
+			// Nope, boring, no touchy touchy, machine.
+			: false;
+
 $(document).ready(function() {
-	/*$('.flicker-example').flicker({
-		dot_navigation: false
-	});*/
-
-	$('.t_menu').sidr({
-		side: 'right'
+	// Marketing text collapse click bindings
+	$('.marketing__collapse-heading').click(function(e) {
+		$(e.target).closest('.marketing__collapse-heading').find('.fa').toggleClass('fa-chevron-circle-down fa-chevron-circle-up');
 	});
-
-	$('.close_menu').click(function(){
-		jQuery.sidr('toggle');
-	});
-
-	//$('#sidr').css('visibility','visible');
-
-    $('.header_menu li').hover(
-        function () {
-            $('ul:first', this).css('display','block');
-        }, 
-
-        function () {
-            $('ul:first', this).css('display','none');
-        }
-    );  
 	
-    if($('.container').width() == 300) {
-		$('.home_feat_slider').bxSlider({
-			minSlides: 1,
-			maxSlides: 4,
-			slideWidth: 280,
-			slideMargin: 10,
-			pager: false
-		});        	
-    } else if($('.container').width() == 748) {
-		$('.home_feat_slider').bxSlider({
-			minSlides: 1,
-			maxSlides: 4,
-			slideWidth: 239,
-			slideMargin: 15,
-			pager: false
-		});    
-    } else {
-		$('.home_feat_slider').bxSlider({
-			minSlides: 1,
-			maxSlides: 4,
-			slideWidth: 280,
-			slideMargin: 15,
-			pager: false
-		});    
-	}
-
-	$('.header_spacing').css('height', $('#header').outerHeight() + 'px');
-
-	//$('#big-video-wrap').css('margin-top', $('#header').outerHeight() + 'px');
-	//$('#big-video-vid').css('top','0px');
-	//$('#big-video-wrap').css('height','auto');
-
-	$('.fullplate').css('height', ($(window).height() - $('#header').outerHeight()) + 'px');
-	//$('#main_header_menu').slicknav();
-
-	if($('#header').css('position') == 'absolute') 
-		$('#header').css('top', $('.slicknav_menu').outerHeight() + 'px');
-	else {
-		$('#header').css('top', '0px');
-		//$('#big-video-wrap').css('margin-top', '0px');
-	}
-
-	$('.home_blog_post').hover(
-		function() {
-			$(this).find('.home_blog_post_hover').css('display','block');
-		},
-		function() {
-			$(this).find('.home_blog_post_hover').css('display','none');
-		}
-	);
-
-	$('.home_blog_posts_small').hover(
-		function() {
-			$(this).find('.home_blog_posts_small_hover').css('display','block');
-		},
-		function() {
-			$(this).find('.home_blog_posts_small_hover').css('display','none');
-		}
-	);
-
-	function get_height(){
-		var w = $('.home_post_thumb').width();
-		var h = w * 0.72;
-		$('.home_post_thumb').css('height',h);
-	}
-
-	get_height();
-
-	$(window).resize(function(){
-		get_height();
+	// Scroll to Top buttons
+	$('a[href="#top"]').on('click', function(){
+		$('body,html').animate({ scrollTop: 0 }, 'fast');
 	});
 
-	$('.home_box').hover(
-		function() {
-			$(this).find('.home_box_hover').css('display','block');
-		},
-		function() {
-			$(this).find('.home_box_hover').css('display','none');
-		}
-	);
-
-	$('.home_post_thumb a').hover(
-        function () {
-            $(this).children('.title').css('display','block');
-        }, 
-        function () {
-            $(this).children('.title').css('display','none');
-        }
-    ); 
-
-	$(".scroller").on("click",function(){
-		//$(".webplate-content").animate({scrollTop:d},1e3,"easeInOutCubic");
-		$("html, body").animate({ scrollTop: $('.fullplate').outerHeight() }, "slow");
-		//alert('test');
-	});	
-
-	var demo1 = $("#demo1").slippry({
-		adaptiveHeight: false,
-		transition: 'fade',
-		useCSS: true,
-		speed: 1000,
-		pause: 8000,
-		auto: true
+	$('.contact-form--disclaimer-link').on('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$('.contact-form--disclaimer').slideToggle();
 	});
-});
-
-$(window).load(function() {
-	$('.header_spacing').css('height', $('#header').outerHeight() + 'px');
-	//$('#big-video-wrap').css('margin-top', $('#header').outerHeight() + 'px');
-	//$('#big-video-vid').css('top','0px');
-	//$('#big-video-wrap').css('height','auto');
-	$('.fullplate').css('height', ($(window).height() - $('#header').outerHeight()) + 'px');
-
-	if($('#header').css('position') == 'absolute')
-		$('#header').css('top', $('.slicknav_menu').outerHeight() + 'px');
-	else {
-		$('#header').css('top', '0px');
-		//$('#big-video-wrap').css('margin-top', '0px');
-	}
-});
-
-$(window).scroll(function() {
-	$('.header_spacing').css('height', $('#header').outerHeight() + 'px');
-
-	if($('#header').css('position') == 'absolute')
-		$('#header').css('top', $('.slicknav_menu').outerHeight() + 'px');
-	else {
-		$('#header').css('top', '0px');
-		//$('#big-video-wrap').css('margin-top', '0px');
-	}
-});
-
-$(window).resize(function() {
-	$('.header_spacing').css('height', $('#header').outerHeight() + 'px');
-	if($('#header').css('position') == 'absolute')
-		$('#header').css('top', $('.slicknav_menu').outerHeight() + 'px');
-	else {
-		$('#header').css('top', '0px');
-		//$('#big-video-wrap').css('margin-top', '0px');
-	}
+	$('.contact-form--disclaimer > .close').on('click', function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$('.contact-form--disclaimer').slideUp();
+	});
 });
