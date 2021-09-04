@@ -73,4 +73,30 @@
 					</div>
 				</div>
 			</div>
+
+			<?php if (!is_home() && !is_front_page()) { ?>
+			<div class="container">
+				<nav class="navbar navbar__interior">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topNav" aria-expanded="false">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="fa fa-bars"></span> Menu
+						</button>
+					</div>
+					<?php 
+						wp_nav_menu(
+							array(
+								'theme_location'  => 'topNav',
+								'manu'            => 'Top Nav',
+								'menu_class'      => 'menu-wrapper',
+								'menu_id'         => 'topNav',
+								'container_class' => 'collapse navbar-collapse navbar__interior-collapse',
+								'items_wrap'      => '<ul class="nav navbar-nav navbar__interior">%3$s</ul>',
+								'fallback_cb'     => false,
+							)
+						);
+					?>
+				</nav>
+			</div>
+			<?php } ?>
 		</header>

@@ -5,6 +5,7 @@ $settings_list = array(
     'custom_logo_url',
     'featured_text',
     'featured_text_title',
+    'staff_image_url',
     'background_image_url',
     'custom_background_color',
     'disable_slideshow',
@@ -70,6 +71,18 @@ function mytheme_admin()
                 <td>Custom logo URL:</td>
                 <td><input type="text" name="custom_logo_url" class="ss_text" value="<?php echo stripslashes(stripslashes(get_option($shortname.'_custom_logo_url',''))); ?>" /><br /><small><a href="<?php bloginfo('url'); ?>/wp-admin/media-new.php" target="_blank">Upload your logo</a> (360px wide x 102px high)</small></td>
             </tr>
+            <tr>
+                <td>Featured Text Title:</td>
+                <td><input type="text" name="featured_text_title" class="ss_text" value="<?php echo stripslashes(stripslashes(get_option($shortname . '_featured_text_title',''))); ?>" /></td>
+            </tr>
+            <tr>
+                <td>Featured Text:</td>
+                <td><input type="text" name="featured_text" class="ss_text" value="<?php echo stripslashes(stripslashes(get_option($shortname.'_featured_text',''))); ?>" /></td>
+            </tr>
+            <tr>
+                <td>Staff Image URL:</td>
+                <td><input type="text" name="staff_image_url" class="ss_text" value="<?php echo stripslashes(stripslashes(get_option($shortname.'_staff_image_url',''))); ?>" /><br /><small><a href="<?php bloginfo('url'); ?>/wp-admin/media-new.php" target="_blank">Upload your image</a></small></td>
+            </tr>
 
             <tr>
                 <td>Background Image URL:</td>
@@ -92,28 +105,12 @@ function mytheme_admin()
                 <td><input type="text" name="twitter_link" class="ss_text" value="<?php echo stripslashes(stripslashes(get_option($shortname.'_twitter_link',''))); ?>" /></td>
             </tr>
             <tr>
-                <td>Instagram Link:</td>
-                <td><input type="text" name="picasa_link" class="ss_text" value="<?php echo stripslashes(stripslashes(get_option($shortname.'_picasa_link',''))); ?>" /></td>
-            </tr>
-            <tr>
                 <td>Google Plus Link:</td>
                 <td><input type="text" name="google_plus_link" class="ss_text" value="<?php echo stripslashes(stripslashes(get_option($shortname.'_google_plus_link',''))); ?>" /></td>
             </tr>
             <tr>
-                <td>Pinterest Link:</td>
-                <td><input type="text" name="pinterest_link" class="ss_text" value="<?php echo stripslashes(stripslashes(get_option($shortname.'_pinterest_link',''))); ?>" /></td>
-            </tr>
-            <tr>
-                <td>Vimeo Link:</td>
-                <td><input type="text" name="vimeo_link" class="ss_text" value="<?php echo stripslashes(stripslashes(get_option($shortname.'_vimeo_link',''))); ?>" /></td>
-            </tr>
-            <tr>
                 <td>Youtube Link:</td>
                 <td><input type="text" name="youtube_link" class="ss_text" value="<?php echo stripslashes(stripslashes(get_option($shortname.'_youtube_link',''))); ?>" /></td>
-            </tr>
-            <tr>
-                <td>Linkedin Link:</td>
-                <td><input type="text" name="flickr_link" class="ss_text" value="<?php echo stripslashes(stripslashes(get_option($shortname.'_flickr_link',''))); ?>" /></td>
             </tr>
             <tr>
                 <td>Copyright Text:</td>

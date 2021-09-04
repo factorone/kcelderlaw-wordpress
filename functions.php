@@ -1,10 +1,8 @@
 <?php
-
-
 include('settings.php');
 
-
-if (function_exists('add_theme_support')) {
+if (function_exists('add_theme_support')) 
+{
 	add_theme_support('menus');
 	register_nav_menu('leftNav','Left Menu');
 	register_nav_menu('topNav','Top Menu');
@@ -19,23 +17,72 @@ if (function_exists('add_theme_support')) {
     add_image_size('home-image',380,275,true);
 }
 
-function get_category_id($cat_name) {
+// Inject a menu into a content area through a short code
+function menu_shortcode($attr)
+{
+    $args = shortcode_atts(array(
+        'name'  => '',
+        'class' => '',
+        'location' => '',
+        'id' => '',
+        'container-class' => ''
+    ), $attr);
+
+	return wp_nav_menu(array(
+        'menu'            => $args['name'],
+        'theme_location'  => $args['location'],
+        'menu_class'      => $args['class'],
+        'menu_id'         => $args['id'],
+        'container_class' => $args['container-class']
+    ));
+}
+add_shortcode('addmenu', 'menu_shortcode');
+
+// Nav Menu Item class injection
+function nav_filter_handler($classes, $item, $args, $depth)
+{
+    $classes[] = 'nav__list-item';
+
+    return $classes;
+}
+add_filter('nav_menu_css_class', 'nav_filter_handler', 10, 4);
+
+// Nav Menu Item Link class injection
+function nav_item_filter_handler($atts, $item, $args)
+{
+	if($args->theme_location !== 'footerLegal')
+	{
+		$atts['class'] = 'nav__list-link';
+	}
+	
+	return $atts;
+}
+add_filter('nav_menu_link_attributes', 'nav_item_filter_handler', 10, 3);
+
+function get_category_id($cat_name) 
+{
 	$term = get_term_by('name', $cat_name, 'category');
 	return $term->term_id;
 }
 
-function ds_get_excerpt($num_chars) {
+function ds_get_excerpt($num_chars) 
+{
     $temp_str = substr(strip_shortcodes(strip_tags(get_the_content())),0,$num_chars);
     $temp_parts = explode(" ",$temp_str);
     $temp_parts[(count($temp_parts) - 1)] = '';
 
     if(strlen(strip_tags(get_the_content())) > 125)
+    {
         return implode(" ",$temp_parts) . '...';
-    else
+    }
+    else 
+    {
         return implode(" ",$temp_parts);
+    }
 }
 
-if ( function_exists('register_sidebar') ) {
+if (function_exists('register_sidebar')) 
+{
     register_sidebar(array(
         'name'=>'Sidebar',
 		'before_widget' => '<div class="side_box">',
@@ -94,20 +141,23 @@ $meta_box = array(
 add_action('admin_menu', 'mytheme_add_box');
 
 // Add meta box
-function mytheme_add_box() {
+function mytheme_add_box() 
+{
     global $meta_box;
     add_meta_box($meta_box['id'], $meta_box['title'], 'mytheme_show_box', $meta_box['page'], $meta_box['context'], $meta_box['priority']);
 }
 
 // Callback function to show fields in meta box
-function mytheme_show_box() {
+function mytheme_show_box() 
+{
     global $meta_box, $post;
 
     // Use nonce for verification
     echo '<input type="hidden" name="mytheme_meta_box_nonce" value="', wp_create_nonce(basename(__FILE__)), '" />';
     echo '<table class="form-table">';
 
-    foreach ($meta_box['fields'] as $field) {
+    foreach ($meta_box['fields'] as $field) 
+    {
         // get current post meta data
         $meta = get_post_meta($post->ID, $field['id'], true);
 
@@ -115,7 +165,8 @@ function mytheme_show_box() {
                 '<th style="width:20%"><label for="', $field['id'], '">', $field['name'], '</label></th>',
                 '<td>';
 
-        switch ($field['type']) {
+        switch ($field['type']) 
+        {
             case 'text':
                 echo '<input type="text" name="', $field['id'], '" id="', $field['id'], '" value="', $meta ? $meta : $field['std'], '" size="30" style="width:97%" />', '<br />', $field['desc'];
                 break;
@@ -127,7 +178,8 @@ function mytheme_show_box() {
             case 'select':
                 echo '<select name="', $field['id'], '" id="', $field['id'], '">';
 
-                foreach ($field['options'] as $option) {
+                foreach ($field['options'] as $option) 
+                {
                     echo '<option', $meta == $option ? ' selected="selected"' : '', '>', $option, '</option>';
                 }
 
@@ -135,7 +187,8 @@ function mytheme_show_box() {
                 break;
 
             case 'radio':
-                foreach ($field['options'] as $option) {
+                foreach ($field['options'] as $option) 
+                {
                     echo '<input type="radio" name="', $field['id'], '" value="', $option['value'], '"', $meta == $option['value'] ? ' checked="checked"' : '', ' />', $option['name'];
                 }
                 break;
@@ -155,35 +208,46 @@ function mytheme_show_box() {
 add_action('save_post', 'mytheme_save_data');
 
 // Save data from meta box
-function mytheme_save_data($post_id) {
+function mytheme_save_data($post_id) 
+{
     global $meta_box;
 
     // verify nonce
-    if (!wp_verify_nonce($_POST['mytheme_meta_box_nonce'], basename(__FILE__))) {
+    if (!wp_verify_nonce($_POST['mytheme_meta_box_nonce'], basename(__FILE__))) 
+    {
         return $post_id;
     }
 
     // check autosave
-    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) 
+    {
         return $post_id;
     }
 
     // check permissions
-    if ('page' == $_POST['post_type']) {
-        if (!current_user_can('edit_page', $post_id)) {
+    if ('page' == $_POST['post_type']) 
+    {
+        if (!current_user_can('edit_page', $post_id)) 
+        {
             return $post_id;
         }
-    } elseif (!current_user_can('edit_post', $post_id)) {
+    } 
+    elseif (!current_user_can('edit_post', $post_id)) 
+    {
         return $post_id;
     }
 
-    foreach ($meta_box['fields'] as $field) {
+    foreach ($meta_box['fields'] as $field) 
+    {
         $old = get_post_meta($post_id, $field['id'], true);
         $new = $_POST[$field['id']];
 
-        if ($new && $new != $old) {
+        if ($new && $new != $old) 
+        {
             update_post_meta($post_id, $field['id'], $new);
-        } elseif ('' == $new && $old) {
+        } 
+        elseif ('' == $new && $old) 
+        {
             delete_post_meta($post_id, $field['id'], $old);
         }
     }
@@ -194,7 +258,8 @@ function mytheme_save_data($post_id) {
 /* Custom fields for PAGES Starts */
 add_action( 'add_meta_boxes', 'pages_extra_fields_box' );
 
-function pages_extra_fields_box() {
+function pages_extra_fields_box() 
+{
     add_meta_box( 
         'pages_extra_fields_box_id',
         __( 'Page Details', 'rochebros' ),
@@ -205,7 +270,8 @@ function pages_extra_fields_box() {
     );
 }
 
-function pages_extra_fields_box_content( $post ) {
+function pages_extra_fields_box_content( $post ) 
+{
 	wp_nonce_field( plugin_basename( __FILE__ ), 'pages_extra_fields_box_content_nonce' ); ?>
 
 <style type="text/css">
@@ -219,8 +285,10 @@ function pages_extra_fields_box_content( $post ) {
         <td>
             <select name="page_featured_type">
                 <option value="">image</option>
-                <option value="youtube" <?php if(get_post_meta( $post->ID, 'page_featured_type', true ) == 'youtube') { echo 'selected="selected"'; } ?>>youtube</option>
-                <option value="vimeo" <?php if(get_post_meta( $post->ID, 'page_featured_type', true ) == 'vimeo') { echo 'selected="selected"'; } ?>>vimeo</option>
+                <option value="youtube" <?php if(get_post_meta( $post->ID, 'page_featured_type', true ) == 'youtube') 
+                { echo 'selected="selected"'; } ?>>youtube</option>
+                <option value="vimeo" <?php if(get_post_meta( $post->ID, 'page_featured_type', true ) == 'vimeo') 
+                { echo 'selected="selected"'; } ?>>vimeo</option>
             </select>
         </td>
     </tr>
@@ -235,20 +303,32 @@ function pages_extra_fields_box_content( $post ) {
 <?php
 }
 
-add_action( 'save_post', 'pages_extra_fields_box_save' );
+add_action('save_post', 'pages_extra_fields_box_save');
 
-function pages_extra_fields_box_save( $post_id ) {
-	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) 
+function pages_extra_fields_box_save($post_id) 
+{
+	if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) 
+    {
         return;
-	if ( !wp_verify_nonce( $_POST['pages_extra_fields_box_content_nonce'], plugin_basename( __FILE__ ) ) )
+    }
+	if (!wp_verify_nonce($_POST['pages_extra_fields_box_content_nonce'], plugin_basename( __FILE__ ))) 
+    {
     	return;
+    }
 
-	if ( 'page' == $_POST['post_type'] ) {
-		if ( !current_user_can( 'edit_page', $post_id ) )
+	if ('page' == $_POST['post_type']) 
+    {
+		if (!current_user_can('edit_page', $post_id)) 
+        {
 		    return;
-    } else {
-		if ( !current_user_can( 'edit_post', $post_id ) )
+        }
+    } 
+    else 
+    {
+		if (!current_user_can('edit_post', $post_id)) 
+        {
 		    return;
+        }
 	}
 
 	$page_featured_type = $_POST['page_featured_type'];
@@ -260,21 +340,26 @@ function pages_extra_fields_box_save( $post_id ) {
 /* Custom fields for PAGES Ends */
 
 // **** PRODUCTION - Template1 Search START ****
-class template1_search extends WP_Widget {
-	function template1_search() {
+class template1_search extends WP_Widget 
+{
+	function template1_search() 
+    {
 		parent::WP_Widget(false, 'Custom Search');
 	}
 
-	function widget($args, $instance) {
+	function widget($args, $instance) 
+    {
         $args['search_title'] = $instance['search_title'];
 		t1_func_search($args);
 	}
 
-	function update($new_instance, $old_instance) {
+	function update($new_instance, $old_instance) 
+    {
 		return $new_instance;
 	}
 
-	function form($instance) {
+	function form($instance) 
+    {
         $search_title = esc_attr($instance['search_title']);
 ?>
         <p><label for="<?php echo $this->get_field_id('search_title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('search_title'); ?>" name="<?php echo $this->get_field_name('search_title'); ?>" type="text" value="<?php echo $search_title; ?>" /></label></p>
@@ -282,12 +367,14 @@ class template1_search extends WP_Widget {
 	}
 }
 
-function t1_func_search($args = array(), $displayComments = TRUE, $interval = '') {
+function t1_func_search($args = array(), $displayComments = TRUE, $interval = '') 
+{
 	global $wpdb;
 
     echo $args['before_widget']; 
 
-    if($args['search_title'] != '')
+    if($args['search_title'] != '') 
+    {
         echo $args['before_title'] . $args['search_title'] . $args['after_title']; ?>
 
         <div class="t1_search_cont">
@@ -298,31 +385,36 @@ function t1_func_search($args = array(), $displayComments = TRUE, $interval = ''
             </form>
         </div><!--//t1_search_cont-->
         <?php
+    }
 
     echo $args['after_widget'];
     wp_reset_query();
 }
 
 register_widget('template1_search');  
-
 // **** PRODUCTION - Template1 Search END ****
 
 // **** SOCIAL WIDGETS START ****
-class dessign_social extends WP_Widget {
-    function dessign_social() {
+class dessign_social extends WP_Widget 
+{
+    function dessign_social() 
+    {
         parent::WP_Widget(false, 'Dessign Social');
     }
 
-    function widget($args, $instance) {
+    function widget($args, $instance) 
+    {
         $args['social_title'] = $instance['social_title'];
         dessign_social_func($args);
     }
 
-    function update($new_instance, $old_instance) {
+    function update($new_instance, $old_instance) 
+    {
         return $new_instance;
     }
 
-    function form($instance) {
+    function form($instance) 
+    {
         $social_title = esc_attr($instance['social_title']);
 ?>
         <p><label for="<?php echo $this->get_field_id('social_title'); ?>"><?php _e('Title:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('social_title'); ?>" name="<?php echo $this->get_field_name('social_title'); ?>" type="text" value="<?php echo $social_title; ?>" /></label></p>
@@ -330,18 +422,19 @@ class dessign_social extends WP_Widget {
     }
 }
 
-function dessign_social_func($args = array(), $displayComments = TRUE, $interval = '') {
+function dessign_social_func($args = array(), $displayComments = TRUE, $interval = '') 
+{
     global $wpdb;
 
     echo $args['before_widget']; 
 
-    $shortname = "agency_theme";
+    $shortname = "kcel_theme";
 
-    if($args['social_title'] != '')
+    if($args['social_title'] != '') 
+    {
         echo $args['before_title'] . $args['social_title'] . $args['after_title']; ?>
         <div class="side_social">
             <?php if(get_option($shortname.'_twitter_link','') != '') { ?>
-
                 <a href="<?php echo get_option($shortname.'_twitter_link',''); ?>"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/twitter-icon.png" alt="twitter" /></a>
             <?php } ?>
 
@@ -375,6 +468,7 @@ function dessign_social_func($args = array(), $displayComments = TRUE, $interval
             <div class="clear"></div>
         </div><!--//side_social-->
     <?php
+    }
 
     echo $args['after_widget'];
     wp_reset_query();
@@ -382,4 +476,5 @@ function dessign_social_func($args = array(), $displayComments = TRUE, $interval
 
 register_widget('dessign_social');  
 // **** SOCIAL WIDGETS END ****
+
 ?>
